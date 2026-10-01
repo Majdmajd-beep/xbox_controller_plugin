@@ -45,20 +45,29 @@ static volatile int       g_polling_active = 0;
 static volatile int       g_initialized = 0;
 
 /*
- * Check if device is an Xbox 360 controller
+ * Check if device is an Xbox 360 controller (or supported compatible device)
  */
 static int is_xbox360_controller(uint16_t vid, uint16_t pid) {
-    if (vid != XBOX360_VID) {
-        return 0;
+    if (vid == XBOX360_VID) {
+        switch (pid) {
+            case XBOX360_PID_WIRED:
+            case XBOX360_PID_WIRELESS:
+                return 1;
+            default:
+                return 0;
+        }
     }
 
-    switch (pid) {
-        case XBOX360_PID_WIRED:
-        case XBOX360_PID_WIRELESS:
-            return 1;
-        default:
-            return 0;
+    if (vid == GAMESIR_VID) {
+        switch (pid) {
+            case GAMESIR_NOVA2LITE_PID:
+                return 1;
+            default:
+                return 0;
+        }
     }
+
+    return 0;
 }
 
 /*
