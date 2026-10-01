@@ -1,0 +1,46 @@
+name: Build Plugin
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang lld wget tar
+
+      - name: Setup OpenOrbis Toolchain
+        run: |
+          mkdir -p /tmp/toolchain
+          cd /tmp/toolchain
+          wget -q https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/latest/download/openorbis_toolchain.tar.gz || \
+          wget -q $(curl -s https://api.github.com/repos/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/latest | grep "browser_download_url.*tar.gz" | cut -d '"' -f 4)
+          tar -xzf *.tar.gz
+          echo "OO_PS4_TOOLCHAIN=/tmp/toolchain" >> $GITHUB_ENV
+
+      - name: Setup GoldHEN Plugins SDK
+        run: |
+          git clone https://github.com/GoldHEN/GoldHEN_Plugins_SDK /tmp/goldhen_sdk
+          cd /tmp/goldhen_sdk
+          make
+          echo "GOLDHEN_SDK=/tmp/goldhen_sdk" >> $GITHUB_ENV
+
+      - name: Build plugin
+        run: |
+          make
+
+      - name: Upload compiled plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: xbox_controller-prx
+          path: |
+            **/*.prx
+          if-no-files-found: warn
