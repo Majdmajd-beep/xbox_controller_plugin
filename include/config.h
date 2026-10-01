@@ -16,6 +16,9 @@
 #define XBOX360_PID_WIRED       0x028E  // Xbox 360 Controller
 #define XBOX360_PID_WIRELESS    0x0719  // Xbox 360 Wireless Receiver
 
+#define GAMESIR_VID             0x3537  // GameSir
+#define GAMESIR_NOVA2LITE_PID   0x100F  // GameSir Nova 2 Lite (XInput mode)
+
 // USB endpoints
 #define XBOX360_ENDPOINT_IN     0x81    // Input endpoint (controller -> host)
 #define XBOX360_ENDPOINT_OUT    0x01    // Output endpoint (host -> controller)
