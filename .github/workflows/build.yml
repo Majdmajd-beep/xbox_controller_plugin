@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang lld wget tar
+          sudo apt-get install -y clang lld wget tar git
 
       - name: Setup OpenOrbis Toolchain
         run: |
@@ -25,9 +25,13 @@ jobs:
           tar -xzf *.tar.gz
           echo "OO_PS4_TOOLCHAIN=/tmp/toolchain" >> $GITHUB_ENV
 
-      - name: Build plugin
+      - name: Fetch GoldHEN Plugins SDK
         run: |
           rm -rf sdk/GoldHEN_Plugins_SDK
+          git clone https://github.com/GoldHEN/GoldHEN_Plugins_SDK sdk/GoldHEN_Plugins_SDK
+
+      - name: Build plugin
+        run: |
           make
 
       - name: Upload compiled plugin
