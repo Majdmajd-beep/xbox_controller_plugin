@@ -23,8 +23,6 @@ jobs:
           cd /tmp/toolchain
           wget -q $(curl -s https://api.github.com/repos/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/latest | grep "browser_download_url.*tar.gz" | cut -d '"' -f 4)
           tar -xzf *.tar.gz
-          echo "=== Toolchain contents ==="
-          find /tmp/toolchain -maxdepth 3
 
       - name: Fetch GoldHEN Plugins SDK
         run: |
@@ -33,7 +31,7 @@ jobs:
 
       - name: Build plugin
         run: |
-          make GOLDHEN_SDK=$GITHUB_WORKSPACE/sdk/GoldHEN_Plugins_SDK OO_PS4_TOOLCHAIN=/tmp/toolchain
+          make GOLDHEN_SDK=$GITHUB_WORKSPACE/sdk/GoldHEN_Plugins_SDK OO_PS4_TOOLCHAIN=/tmp/toolchain/OpenOrbis/PS4Toolchain
 
       - name: Upload compiled plugin
         uses: actions/upload-artifact@v4
