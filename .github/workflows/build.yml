@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Install dependencies
         run: |
@@ -29,6 +27,7 @@ jobs:
 
       - name: Build plugin
         run: |
+          rm -rf sdk/GoldHEN_Plugins_SDK
           make
 
       - name: Upload compiled plugin
