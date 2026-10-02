@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang lld wget tar git gcc-multilib
+          sudo apt-get install -y clang lld llvm wget tar git gcc-multilib
 
       - name: Setup OpenOrbis Toolchain
         run: |
