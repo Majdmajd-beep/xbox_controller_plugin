@@ -23,6 +23,8 @@ jobs:
           cd /tmp/toolchain
           wget -q $(curl -s https://api.github.com/repos/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/latest | grep "browser_download_url.*tar.gz" | cut -d '"' -f 4)
           tar -xzf *.tar.gz
+          echo "=== Toolchain contents ==="
+          find /tmp/toolchain -maxdepth 3
 
       - name: Fetch GoldHEN Plugins SDK
         run: |
